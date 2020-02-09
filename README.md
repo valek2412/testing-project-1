@@ -1,6 +1,6 @@
 # testing-project-1
 
-##Task
+## Task
 
 https://github.com/tastejs/hacker-news-pwas/blob/master/docs/api.md
 
@@ -12,12 +12,13 @@ time added, title and domain
 - (optional) implement mobile version which consists of entry title column only (fills screen completely) and has floating sort by date button
 - (optional) make table adaptive: breakline entries, truncate by ellipsis any overflow that doesn't fit into 3 lines
 - (optional) implement the same functionality for other list (news if you implemented newest, newest otherwise,etc.), add ability to transition between lists
-_
+
 Use any flux-like state management stategy(redux, useReducer hook, flux utilities)
 you are free to use any npm packages
 you are not obliged to do optional points
 do not use CRA
 
 
-##Start
+## Start
+
 To start a project, enter `npm start` in the console.
