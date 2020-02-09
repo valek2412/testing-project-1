@@ -12,15 +12,23 @@ const reducerRequest = (state, action) => {
                 isFetching: false,
                 error: action.payload
             };
+        case "update url":
+            return {
+                ...state,
+                isFetching: true,
+                url: action.payload,
+                defaultUrl: action.payload
+            };
+        case "update url manually":
+            return {
+                ...state,
+                isFetching: true,
+                url: action.payload,
+                defaultUrl: state.defaultUrl
+            };
         default:
             return state;
     }
-};
-
-export const defaultState = {
-    responseData: null,
-    isFetching: true,
-    error: null
 };
 
 export default reducerRequest;

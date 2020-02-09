@@ -1,9 +1,19 @@
 import React from "react";
-import reducerRequest, {defaultState} from "../reducers/requestReduser";
+import reducerRequest from "../reducers/requestReduser";
 import axios from "axios";
 
 const useRequest = url => {
-    const [state, dispatch] = React.useReducer(reducerRequest, defaultState);
+    const [state, dispatch] = React.useReducer(reducerRequest, {
+        url,
+        defaultUrl: url,
+        responseData: null,
+        isFetching: true,
+        error: null
+    });
+
+    if (url !== state.defaultUrl) {
+        dispatch({ type: "update url", payload: url });
+    }
 
     React.useEffect(() => {
         const source = axios.CancelToken.source();
@@ -18,9 +28,16 @@ const useRequest = url => {
                 dispatch({ type: "error", payload: error });
             });
         return source.cancel;
-    }, [url]);
+    }, [state.url]);
 
-    return [state];
+    const update = React.useCallback(
+        url => {
+            dispatch({ type: "update url manually", payload: url });
+        },
+        [dispatch]
+    );
+
+    return [state, update];
 };
 
 export default useRequest;
