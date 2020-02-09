@@ -12,7 +12,7 @@ import useRequest from '../hooks/useRequest';
 const NewsTable = () => {
   const [state, update] = useRequest('https://api.hnpwa.com/v0/news/1.json');
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('time');
+  const [orderBy, setOrderBy] = React.useState('');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
