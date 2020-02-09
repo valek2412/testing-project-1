@@ -5,14 +5,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import EnhancedTableHead from './EnhancedTableHead'
 import InfiniteScroll from 'react-infinite-scroller';
+import EnhancedTableHead from './EnhancedTableHead';
 import useRequest from '../hooks/useRequest';
 
 const NewsTable = () => {
   const [state, update] = useRequest('https://api.hnpwa.com/v0/news/1.json');
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('time');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -30,11 +30,9 @@ const NewsTable = () => {
     return 0;
   };
 
-  const getComparator = (order, orderBy) => {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
-  };
+  const getComparator = (order, orderBy) => (order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy));
 
   const stableSort = (array, comparator) => {
     const stabilizedThis = array.map((el, index) => [el, index]);
@@ -43,7 +41,7 @@ const NewsTable = () => {
       if (order !== 0) return order;
       return a[1] - b[1];
     });
-    return stabilizedThis.map(el => el[0]);
+    return stabilizedThis.map((el) => el[0]);
   };
 
   if (state.isFetching && (state.page === 1)) return (<div>Loading</div>);
@@ -59,9 +57,9 @@ const NewsTable = () => {
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <EnhancedTableHead
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
           />
           <TableBody>
             {stableSort(state.responseData, getComparator(order, orderBy)).map((item) => (
