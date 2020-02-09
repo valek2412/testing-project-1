@@ -33,7 +33,7 @@ const NewsTable = () => {
                     </TableHead>
                     <TableBody>
                         {state.responseData.map(item => (
-                            <TableRow key={item.id}>
+                            <TableRow hover={true} onClick={() => {window.location.href=item.url}} key={item.id}>
                                 <TableCell component="th" scope="row">
                                     {item.time}
                                 </TableCell>
