@@ -26,6 +26,11 @@ const reducerRequest = (state, action) => {
                 url: action.payload,
                 defaultUrl: state.defaultUrl
             };
+        case "next page":
+            return {
+                ...state,
+                page: action.payload,
+            };
         default:
             return state;
     }

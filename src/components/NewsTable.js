@@ -12,16 +12,15 @@ import InfiniteScroll from 'react-infinite-scroller';
 const NewsTable = () => {
     const [state, update] = useRequest(`https://api.hnpwa.com/v0/news/1.json`);
 
-
-
-    if (state.isFetching) return (<div>Loading</div>);
+    if (state.isFetching && (state.page === 1)) return (<div>Loading</div>);
 
     return (
         <InfiniteScroll
             pageStart={0}
-            loadMore={() =>update(`https://api.hnpwa.com/v0/news/2.json`)}
-            hasMore={true || false}
-            loader={<div className="loader" key={0}>Loading ...</div>}
+            loadMore={() => {update(`https://api.hnpwa.com/v0/news/${state.page}.json`)}}
+            initialLoad={false}
+            hasMore={state.page < 10}
+            loader={<div className="loader" key={state.page}>Loading ...</div>}
         >
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
