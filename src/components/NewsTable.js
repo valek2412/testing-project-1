@@ -35,7 +35,7 @@ const NewsTable = () => {
                         {state.responseData.map(item => (
                             <TableRow hover={true} onClick={() => {window.location.href=item.url}} key={item.id}>
                                 <TableCell component="th" scope="row">
-                                    {item.time}
+                                    {item.time_ago}
                                 </TableCell>
                                 <TableCell align="right">{item.title}</TableCell>
                                 <TableCell align="right">{item.domain}</TableCell>
