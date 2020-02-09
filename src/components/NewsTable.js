@@ -6,8 +6,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import InfiniteScroll from 'react-infinite-scroller';
-import EnhancedTableHead from './EnhancedTableHead';
+import EnhancedTableHead from './EnhancedTableHead/EnhancedTableHead';
 import useRequest from '../hooks/useRequest';
+import getComparator from '../utils/comparator';
+import stableSort from '../utils/stableSort';
 
 const NewsTable = () => {
   const [state, update] = useRequest('https://api.hnpwa.com/v0/news/1.json');
@@ -18,30 +20,6 @@ const NewsTable = () => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const descendingComparator = (a, b, orderBy) => {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  };
-
-  const getComparator = (order, orderBy) => (order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy));
-
-  const stableSort = (array, comparator) => {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
   };
 
   if (state.isFetching && (state.page === 1)) return (<div>Loading</div>);
@@ -63,7 +41,7 @@ const NewsTable = () => {
           />
           <TableBody>
             {stableSort(state.responseData, getComparator(order, orderBy)).map((item) => (
-              <TableRow hover onClick={() => { window.location.href = item.url; }} key={item.id}>
+              <TableRow hover onClick={() => { window.location.href = item.url; }} key={item.title}>
                 <TableCell component="th" scope="row">
                   {item.time_ago}
                 </TableCell>
