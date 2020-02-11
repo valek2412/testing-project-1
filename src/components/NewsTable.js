@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,8 +12,9 @@ import useRequest from '../hooks/useRequest';
 import getComparator from '../utils/comparator';
 import stableSort from '../utils/stableSort';
 
-const NewsTable = () => {
-  const [state, update] = useRequest('https://api.hnpwa.com/v0/newest/1.json');
+const NewsTable = (props) => {
+  // eslint-disable-next-line react/destructuring-assignment
+  const [state, update] = useRequest(`${props.url}1.json`);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('');
 
@@ -22,14 +24,15 @@ const NewsTable = () => {
     setOrderBy(property);
   };
 
+  // eslint-disable-next-line react/jsx-filename-extension
   if (state.isFetching && (state.page === 1)) return (<div>Loading</div>);
 
   return (
     <InfiniteScroll
       pageStart={0}
-      loadMore={() => { update(`https://api.hnpwa.com/v0/newest/${state.page}.json`); }}
+      loadMore={() => { update(`${props.url}${state.page}.json`); }}
       initialLoad={false}
-      hasMore={state.page < 5}
+      hasMore={!state.error}
       loader={<div className="loader" key={state.page}>Loading ...</div>}
     >
       <TableContainer component={Paper}>
@@ -54,6 +57,10 @@ const NewsTable = () => {
       </TableContainer>
     </InfiniteScroll>
   );
+};
+
+NewsTable.propTypes = {
+  url: PropTypes.string.isRequired,
 };
 
 export default NewsTable;

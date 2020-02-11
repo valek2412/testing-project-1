@@ -33,6 +33,7 @@ const useRequest = (url) => {
   }, [state.url]);
 
   const update = React.useCallback(
+    // eslint-disable-next-line no-shadow
     (url) => {
       dispatch({ type: 'update url manually', payload: url });
     },

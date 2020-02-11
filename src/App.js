@@ -4,8 +4,9 @@ import './App.css';
 import NewsTable from './components/NewsTable';
 
 const App = () => (
+  // eslint-disable-next-line react/jsx-filename-extension
   <div className="App">
-    <NewsTable />
+    <NewsTable url="https://api.hnpwa.com/v0/newest/" />
   </div>
 );
 
