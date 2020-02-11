@@ -24,6 +24,7 @@ const useRequest = (url) => {
       })
       .then((response) => {
         dispatch({ type: 'fetched', payload: state.responseData.concat(response.data) });
+        dispatch({ type: 'next page', payload: state.page + 1 });
       })
       .catch((error) => {
         dispatch({ type: 'error', payload: error });
@@ -34,7 +35,6 @@ const useRequest = (url) => {
   const update = React.useCallback(
     (url) => {
       dispatch({ type: 'update url manually', payload: url });
-      dispatch({ type: 'next page', payload: ++state.page });
     },
     [dispatch],
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,9 +12,9 @@ import getComparator from '../utils/comparator';
 import stableSort from '../utils/stableSort';
 
 const NewsTable = () => {
-  const [state, update] = useRequest('https://api.hnpwa.com/v0/news/1.json');
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('');
+  const [state, update] = useRequest('https://api.hnpwa.com/v0/newest/1.json');
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('');
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -27,9 +27,9 @@ const NewsTable = () => {
   return (
     <InfiniteScroll
       pageStart={0}
-      loadMore={() => { update(`https://api.hnpwa.com/v0/news/${state.page}.json`); }}
+      loadMore={() => { update(`https://api.hnpwa.com/v0/newest/${state.page}.json`); }}
       initialLoad={false}
-      hasMore={state.page < 10}
+      hasMore={state.page < 5}
       loader={<div className="loader" key={state.page}>Loading ...</div>}
     >
       <TableContainer component={Paper}>
